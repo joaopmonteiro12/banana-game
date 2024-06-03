@@ -26,13 +26,31 @@ public class Target implements Destructible, Movable {
 
     @Override
     public void move() {
-    if (isActive) {
-        x += 1; // Movimento básico, incrementa a posição x
-    }
+        if (isActive) {
+            x -= 1; // Movimento básico para a esquerda
+            if (x > 0) { // se o alvo sair da tela
+                deleteTarget();
+            }
+        }
+
+        System.out.println("Target inative");
     }
 
     @Override
-    public void checkCollision() {
+    public void checkCollision(Target target) {
 
+    }
+// talvez seja útil
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public boolean isActive() {
+        return isActive;
     }
 }
