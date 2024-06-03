@@ -4,4 +4,5 @@ public interface Destructible {
 
     public abstract void createTarget();
     public abstract void deleteTarget();
+
 }
