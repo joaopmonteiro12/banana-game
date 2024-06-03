@@ -1,8 +1,11 @@
 package io.codeforall.forsome;
 
 import io.codeforall.forsome.Grid.Grid;
+import io.codeforall.forsome.Grid.GameGrid;
+import io.codeforall.forsome.Grid.GridFactory;
 import io.codeforall.forsome.PlayerStuff.Player;
 import io.codeforall.forsome.Targets.Target;
+import org.academiadecodigo.simplegraphics.graphics.Canvas;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 
 public class Game {
@@ -16,5 +19,26 @@ public class Game {
     private int highScore;
     private boolean gameOver;
     private int maxTargets;
+
+    public Game(int cols, int rows, int delay) {
+        createCanvas(cols, rows);
+        this.grid = GridFactory.makeGrid(cols, rows);
+        this.delay = delay;
+
+    }
+
+    public void createCanvas(int cols, int rows) {
+        Canvas.getInstance();
+
+        if (grid instanceof GameGrid) {
+            GameGrid gameGrid = (GameGrid) grid;
+            Canvas.limitCanvasWidth(gameGrid.rowToY(rows));
+            Canvas.limitCanvasHeight(gameGrid.columnToX(cols));
+        }
+    }
+
+    public void init(){
+        grid.init();
+    }
 
 }
