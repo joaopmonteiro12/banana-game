@@ -2,6 +2,7 @@ package io.codeforall.forsome.Targets;
 
 public interface Destructible {
 
-    public abstract void createTarget();
-    public abstract void deleteTarget();
+    public void createTarget();
+    public void deleteTarget();
+
 }
