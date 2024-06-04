@@ -10,5 +10,22 @@ public class Player {
     private Weapon weapon;
     private Keyboard keyboard;
 
+public Player(int score) {
+    this.score=score;
+}
+
+public int getScore() {
+    return this.score;
+}
+public void winPoints(int points) {
+    this.score=this.score+points;
+}
+public void loosePoints(int points) {
+    if (this.score >= points) {
+        this.score = this.score - points;
+    }
+}
+
 
 }
+
