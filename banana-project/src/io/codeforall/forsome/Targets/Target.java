@@ -7,13 +7,17 @@ public class Target implements Destructible, Movable {
     private int x;
     private int y;
     private boolean isActive;
+    private TargetType type;
+
     private static final int GRID_WIDTH = 100; //???
     private static final int GRID_HEIGHT = 100; // ????
 
+
     // Construtor
-    public Target(int x, int y) {
+    public Target(int x, int y, TargetType type) {
         this.x = x;
         this.y = y;
+        this.type = type;
         this.isActive = true;
         createTarget();
     }
@@ -29,15 +33,32 @@ public class Target implements Destructible, Movable {
         System.out.println("Target at position (" + x + ", " + y + ") is deleted.");
     }
 
-    @Override
     public void move() {
         if (isActive) {
-            x -= 1; // Movimento para a esquerda
-            if (x < 0) { // Se o alvo sair da tela pela esquerda
-                deleteTarget();
-            } else {
-                System.out.println("Target moved to position (" + x + ", " + y + ")");
+            int direction = new Random().nextInt(4);
+            switch (direction) {
+                case 0: // move left
+                    if (x > 0) {
+                        x -= 1;
+                    }
+                    break;
+                case 1: // move right
+                    if (x < GRID_WIDTH - 1) {
+                        x += 1;
+                    }
+                    break;
+                case 2: // move up
+                    if (y > 0) {
+                        y -= 1;
+                    }
+                    break;
+                case 3: // move down
+                    if (y < GRID_HEIGHT - 1) {
+                        y += 1;
+                    }
+                    break;
             }
+            System.out.println(type + " Target moved to position (" + x + ", " + y + ")");
         } else {
             System.out.println("Cannot move. Target is inactive.");
         }
