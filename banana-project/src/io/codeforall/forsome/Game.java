@@ -1,5 +1,6 @@
 package io.codeforall.forsome;
 
+import io.codeforall.forsome.Background.Background;
 import io.codeforall.forsome.Grid.Grid;
 import io.codeforall.forsome.Grid.GameGrid;
 import io.codeforall.forsome.Grid.GridFactory;
@@ -7,6 +8,7 @@ import io.codeforall.forsome.PlayerStuff.Player;
 import io.codeforall.forsome.Targets.Target;
 import org.academiadecodigo.simplegraphics.graphics.Canvas;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
+import io.codeforall.forsome.Background.StartMenu;
 
 public class Game {
 
@@ -16,6 +18,7 @@ public class Game {
     private Player player;
     private Target[] targets;
     private Keyboard keyboard;
+    private Background background;
     private int highScore;
     private boolean gameOver;
     private int maxTargets;
@@ -24,6 +27,7 @@ public class Game {
         createCanvas(cols, rows);
         this.grid = GridFactory.makeGrid(cols, rows);
         this.delay = delay;
+
 
     }
 
@@ -37,8 +41,17 @@ public class Game {
         }
     }
 
-    public void init(){
+    public void init() throws InterruptedException {
         grid.init();
+        this.background = new StartMenu();
+        this.background.createBackground();
+
+        if(background instanceof StartMenu){
+            StartMenu startMenu = (StartMenu) background;
+
+
+        }
+
     }
 
 }
