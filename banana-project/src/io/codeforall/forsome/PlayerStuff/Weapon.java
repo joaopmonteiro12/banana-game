@@ -16,4 +16,17 @@ public int getRemainingBullets() {
     return this.remainingBullets;
 }
 
+public void fire() {
+        if (remainingBullets > 0) {
+            System.out.println("Pew pew! Shots fired.");
+            remainingBullets--;
+        } else {
+            System.out.println("You are out of ammo.");
+        }
+    }
+
+    public void reload() {
+        remainingBullets = maxBullets;
+        System.out.println("Weapon reloaded.");
+    }
 }
