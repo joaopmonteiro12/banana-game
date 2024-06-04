@@ -46,11 +46,11 @@ public class Game {
         this.background = new StartMenu();
         this.background.createBackground();
 
-        if(background instanceof StartMenu){
+       /* if(background instanceof StartMenu){
             StartMenu startMenu = (StartMenu) background;
 
 
-        }
+        }*/
 
     }
 

@@ -25,7 +25,7 @@ public class StartMenu extends Background{
     }
 
     public void createLogo() {
-        this.logo.load("resources/nozk-deitado-small.jpg");
+        this.logo.load("resources/logo.png");
         this.logo.draw();
         this.logo.translate(480,100);
 
