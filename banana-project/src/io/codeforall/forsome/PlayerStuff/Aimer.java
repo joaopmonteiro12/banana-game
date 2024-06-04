@@ -37,7 +37,7 @@ public class Aimer implements Movable {
     public int getX() {
         return x;
     }
-    
+
     public int getY() {
         return y;
     }
