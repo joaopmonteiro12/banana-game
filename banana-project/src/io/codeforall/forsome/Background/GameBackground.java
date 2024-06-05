@@ -7,13 +7,13 @@ public class GameBackground extends Background {
     public void createBackground() {
         this.background.load("resources/duck-hunt-full.png");
         super.createBackground();
-        this.background.grow(160, 160);
-        this.background.translate(160, 150);
+        this.background.grow(100, 100);
+        this.background.translate(100, 90);
         Picture vegetation = new Picture();
         vegetation.load("resources/vegetation.png");
         vegetation.draw();
-        vegetation.grow(160, 160);
-        vegetation.translate(160, 150);
+        vegetation.grow(100, 100);
+        vegetation.translate(100, 90);
         createGun();
 
     }
@@ -23,6 +23,6 @@ public class GameBackground extends Background {
         weapon.load("resources/gun.png");
         weapon.draw();
         weapon.grow(-120,-120);
-        weapon.translate(300,518);
+        weapon.translate(300,398);
     }
 }

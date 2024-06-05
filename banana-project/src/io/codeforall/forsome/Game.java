@@ -5,12 +5,16 @@ import io.codeforall.forsome.Background.GameBackground;
 import io.codeforall.forsome.Grid.Grid;
 import io.codeforall.forsome.Grid.GameGrid;
 import io.codeforall.forsome.Grid.GridFactory;
-import io.codeforall.forsome.PlayerStuff.Player;
+import io.codeforall.forsome.Targets.Movable;
 import io.codeforall.forsome.Targets.Target;
 import org.academiadecodigo.simplegraphics.graphics.Canvas;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import io.codeforall.forsome.Background.StartMenu;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
+import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Game {
 
@@ -31,7 +35,6 @@ public class Game {
         this.grid = GridFactory.makeGrid(cols, rows);
         this.delay = delay;
         this.gameOver = false;
-        //this.player = new Player();
     }
 
     public void createCanvas(int cols, int rows) {
@@ -57,7 +60,7 @@ public class Game {
 
     }
 
-    public void startGame(){
+    public void startGame() {
         //BACKGROUND && GRID
         grid.init();
         this.background = new GameBackground();
@@ -67,12 +70,13 @@ public class Game {
         this.maxTargets = MAX_TARGETS;
 
         //SCORE
-        Text playerScore = new Text(1030,30,score);
+        Text playerScore = new Text(900, 30, score);
         playerScore.draw();
-        playerScore.grow(40,30);
+        playerScore.grow(40, 30);
+
+        this.player = new Player(0,grid);
 
         //while (!gameOver){
         //}
     }
-
 }
