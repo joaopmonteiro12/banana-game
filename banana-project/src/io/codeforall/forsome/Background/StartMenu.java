@@ -27,7 +27,8 @@ public class StartMenu extends Background{
     public void createLogo() {
         this.logo.load("resources/logo.png");
         this.logo.draw();
-        this.logo.translate(480,100);
+        this.logo.grow(-50,-50);
+        this.logo.translate(100,50);
 
     }
 
