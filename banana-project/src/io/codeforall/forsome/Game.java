@@ -71,9 +71,9 @@ public class Game {
             this.maxTargets = MAX_TARGETS;
 
             //SCORE
-            Text playerScore = new Text(900, 30, score);
+            Text playerScore = new Text(720, 30, score);
             playerScore.draw();
-            playerScore.grow(40, 30);
+            playerScore.grow(30, 20);
 
             this.player = new Player(0, grid);
 

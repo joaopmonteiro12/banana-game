@@ -19,8 +19,8 @@ public class StartMenu extends Background{
         super.createBackground();
         //this.background.grow();
         //this.background.translate(100,90);
-        createLogo();
-        createAnnouncement();
+        //createLogo();
+        //createAnnouncement();
     }
 
     public void createLogo() {
@@ -32,9 +32,9 @@ public class StartMenu extends Background{
     }
 
     public void createAnnouncement(){
-        this.announcement = new Picture(100,300, "resources/start-announcement.png");
+        this.announcement = new Picture(-25,240, "resources/start-announcement.png");
         this.announcement.draw();
-        this.announcement.grow(-180,-30);
+        this.announcement.grow(-250,-80);
         this.announcementInitialX = announcement.getX();
         this.announcementInitialY = announcement.getY();
 

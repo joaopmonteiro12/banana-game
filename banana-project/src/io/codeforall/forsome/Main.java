@@ -4,8 +4,9 @@ public class Main {
 
     public static void main(String[] args) throws InterruptedException {
 
-        Game game = new Game(95,77,20);
+        Game game = new Game(80,60,20);
         game.startGame();
+
 
     }
 }
