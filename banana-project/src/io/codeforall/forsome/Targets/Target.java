@@ -1,6 +1,7 @@
 package io.codeforall.forsome.Targets;
 
 import io.codeforall.forsome.Grid.GameGrid;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Target implements Destructible, Movable {
     // Propriedades
@@ -24,18 +25,21 @@ public class Target implements Destructible, Movable {
     @Override
     public void createTarget() {
         // Carregar a imagem correspondente ao tipo de alvo
-       // String imagePath = "";
-        /* switch (type) {
+       /*String imagePath = "";
+         switch (type) {
             case MEKIE:
-                imagePath = "resources/mekie.png";
+                imagePath = "resources/aim-small.png";
                 break;
-            case :
-                imagePath = "resources/type2.png";
+             case MAFALDA:
+                imagePath = "resources/aim-small.png";
                 break;
-            case TYPE3:
-                imagePath = "resources/type3.png";
+             case PAPANOZK:
+                imagePath = "resources/aim-small.png";
                 break;
         } */
+        //Picture teste = new Picture();
+        //teste.load("resources/aim-small.png");
+        //teste.draw();
         System.out.println("Target created at position (" + x + ", " + y + ") with type " + type);
     }
     // NEW DELETE TARGET

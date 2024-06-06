@@ -5,16 +5,14 @@ import io.codeforall.forsome.Background.GameBackground;
 import io.codeforall.forsome.Grid.Grid;
 import io.codeforall.forsome.Grid.GameGrid;
 import io.codeforall.forsome.Grid.GridFactory;
-import io.codeforall.forsome.Targets.Movable;
 import io.codeforall.forsome.Targets.Target;
 import org.academiadecodigo.simplegraphics.graphics.Canvas;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import io.codeforall.forsome.Background.StartMenu;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
-import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
-import org.academiadecodigo.simplegraphics.pictures.Picture;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
 
@@ -22,7 +20,7 @@ public class Game {
     private Grid grid;
     private int delay;
     private Player player;
-    private Target[] targets;
+    private List<Target> targets;
     private Keyboard keyboard;
     private Background background;
     private int highScore;
@@ -69,6 +67,8 @@ public class Game {
             this.currentScore = 0;
             String score = "Score: " + this.currentScore;
             this.maxTargets = MAX_TARGETS;
+
+            this.player.startTargetMovement();
 
             //SCORE
             Text playerScore = new Text(720, 30, score);

@@ -54,7 +54,7 @@ public class Player implements KeyboardHandler {
 
 
     // Método para iniciar o movimento contínuo dos alvos
-    private void startTargetMovement() {
+    public void startTargetMovement() {
         executorService.scheduleAtFixedRate(() -> {
             for (Target target : targets) {
                 target.move();
