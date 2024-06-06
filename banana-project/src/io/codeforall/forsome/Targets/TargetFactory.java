@@ -1,21 +1,25 @@
 package io.codeforall.forsome.Targets;
 
+import io.codeforall.forsome.Grid.GameGrid;
+
 import java.util.Random;
 
 public class TargetFactory {
-    private static final int GRID_WIDTH = 100; //???
-    private static final int GRID_HEIGHT = 100; // ????
 
-    private Random random;
+    private GameGrid gameGrid;
 
-    public TargetFactory() {
-        random = new Random();
+    public TargetFactory(GameGrid gameGrid) {
+        this.gameGrid = gameGrid;
     }
 
-    public Target createTarget(TargetType type) {
-        int x = random.nextInt(GRID_WIDTH);
-        int y = random.nextInt(GRID_HEIGHT);
+    public Target createTarget() {
+        Random random = new Random();
+        TargetType type = TargetType.values()[random.nextInt(TargetType.values().length)];
 
-        return new Target(x, y, type);
+        // Define a posição inicial do alvo fora da tela
+        int x = -20; // Começa fora da tela à esquerda
+        int y = random.nextInt(gameGrid.getHeight()); // Em uma posição aleatória verticalmente
+
+        return new Target(x, y, type, gameGrid);
     }
 }

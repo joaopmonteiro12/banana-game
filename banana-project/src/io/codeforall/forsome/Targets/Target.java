@@ -1,6 +1,6 @@
 package io.codeforall.forsome.Targets;
 
-import java.util.Random;
+import io.codeforall.forsome.Grid.GameGrid;
 
 public class Target implements Destructible, Movable {
     // Propriedades
@@ -8,55 +8,51 @@ public class Target implements Destructible, Movable {
     private int y;
     private boolean isActive;
     private TargetType type;
-
-    private static final int GRID_WIDTH = 100; //???
-    private static final int GRID_HEIGHT = 100; // ????
-
+    private GameGrid gameGrid;
+    private static final int STEP_SIZE = 20; // Tamanho do passo do movimento
 
     // Construtor
-    public Target(int x, int y, TargetType type) {
+    public Target(int x, int y, TargetType type, GameGrid gameGrid) {
         this.x = x;
         this.y = y;
         this.type = type;
         this.isActive = true;
+        this.gameGrid = gameGrid;
         createTarget();
     }
 
     @Override
     public void createTarget() {
-        System.out.println("Target created at position (" + x + ", " + y + ")");
+        // Carregar a imagem correspondente ao tipo de alvo
+       // String imagePath = "";
+        /* switch (type) {
+            case MEKIE:
+                imagePath = "resources/mekie.png";
+                break;
+            case :
+                imagePath = "resources/type2.png";
+                break;
+            case TYPE3:
+                imagePath = "resources/type3.png";
+                break;
+        } */
+        System.out.println("Target created at position (" + x + ", " + y + ") with type " + type);
     }
-
+    // NEW DELETE TARGET
     @Override
     public void deleteTarget() {
         this.isActive = false;
+        //player.removeTarget(this);
         System.out.println("Target at position (" + x + ", " + y + ") is deleted.");
     }
 
+    @Override
     public void move() {
         if (isActive) {
-            int direction = new Random().nextInt(4);
-            switch (direction) {
-                case 0: // move left
-                    if (x > 0) {
-                        x -= 1;
-                    }
-                    break;
-                case 1: // move right
-                    if (x < GRID_WIDTH - 1) {
-                        x += 1;
-                    }
-                    break;
-                case 2: // move up
-                    if (y > 0) {
-                        y -= 1;
-                    }
-                    break;
-                case 3: // move down
-                    if (y < GRID_HEIGHT - 1) {
-                        y += 1;
-                    }
-                    break;
+            if (x < gameGrid.getWidth()) {
+                x += STEP_SIZE; // Move para a direita para dentro da tela
+            } else {
+                x = -STEP_SIZE; // Reinicia a posição horizontal quando sai do lado direito da tela
             }
             System.out.println(type + " Target moved to position (" + x + ", " + y + ")");
         } else {
@@ -66,7 +62,7 @@ public class Target implements Destructible, Movable {
 
     @Override
     public void checkCollision(Target target) {
-        // Esta implementação não é necessária aqui
+        // Implementação do método de verificação de colisão
     }
 
     // Métodos adicionais que podem ser úteis
@@ -82,4 +78,5 @@ public class Target implements Destructible, Movable {
         return isActive;
     }
 }
+
 
