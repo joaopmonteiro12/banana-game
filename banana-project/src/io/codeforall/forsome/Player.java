@@ -1,14 +1,22 @@
 package io.codeforall.forsome;
-
 import io.codeforall.forsome.Grid.GameGrid;
 import io.codeforall.forsome.Grid.Grid;
 import io.codeforall.forsome.Targets.Movable;
 import io.codeforall.forsome.Targets.Target;
+import io.codeforall.forsome.Targets.TargetFactory;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+
 
 public class Player implements KeyboardHandler {
 
@@ -17,6 +25,9 @@ public class Player implements KeyboardHandler {
     private Keyboard keyboard;
     private Grid grid;
     private boolean isPlaying;
+    private List<Target> targets;
+    private TargetFactory targetFactory;
+    private ScheduledExecutorService executorService;
 
     public Player(int score, Grid grid) {
         this.score = score;
@@ -25,9 +36,45 @@ public class Player implements KeyboardHandler {
         addKeyboard();
         this.grid = grid;
         this.isPlaying = false;
+        this.targets = new ArrayList<>();
+        this.targetFactory = new TargetFactory((GameGrid) grid);
+        this.executorService = Executors.newScheduledThreadPool(1);
+
+
+        // criar alguns alvos iniciais
+        for (int i = 0; i < 5; i++) {
+            targets.add(targetFactory.createTarget());
+        }
+
+        startTargetMovement();
 
     }
 
+    // Inicia o movimento contínuo dos alvos
+
+
+    // Método para iniciar o movimento contínuo dos alvos
+    private void startTargetMovement() {
+        executorService.scheduleAtFixedRate(() -> {
+            for (Target target : targets) {
+                target.move();
+            }
+        }, 0, 500, TimeUnit.MILLISECONDS); // Move os alvos a cada 500ms
+    }
+
+    // Método para remover um alvo da lista
+    public void removeTarget(Target target) {
+        targets.remove(target);
+        if (targets.isEmpty()) {
+            endGame();
+        }
+    }
+
+    // Método para encerrar o jogo
+    private void endGame() {
+        System.out.println("Game Over! All targets have been destroyed.");
+        executorService.shutdown();
+    }
     public int getScore() {
         return this.score;
     }
@@ -212,7 +259,7 @@ public class Player implements KeyboardHandler {
         public void checkCollision(Target target) {
             if (x == target.getX() && y == target.getY()) {
                 System.out.println("Collision detected at position (" + x + ", " + y + ")");
-                target.deleteTarget();
+                targets.remove(target);
             }
             System.out.println("No collision at position (" + x + ", " + y + ")");
         }

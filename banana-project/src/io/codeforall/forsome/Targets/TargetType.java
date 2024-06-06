@@ -4,5 +4,5 @@ public enum TargetType {
     MAFALDA,
     PAPANOZK,
     MEKIE,
-    SARA;
+    HENRIQUE;
 }
