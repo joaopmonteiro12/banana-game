@@ -29,12 +29,14 @@ public class Game {
     private int currentScore;
     private boolean gameOver;
     private int maxTargets;
+    private GameState gameState;
 
     public Game(int cols, int rows, int delay) {
         createCanvas(cols, rows);
         this.grid = GridFactory.makeGrid(cols, rows);
         this.delay = delay;
         this.gameOver = false;
+        this.gameState = GameState.START;
     }
 
     public void createCanvas(int cols, int rows) {
@@ -47,36 +49,73 @@ public class Game {
         }
     }
 
-    public void init() throws InterruptedException {
+    public void startGame() throws InterruptedException {
+        this.player = new Player(0, grid);
 
-        this.background = new StartMenu();
-        this.background.createBackground();
+        if (this.gameState == GameState.START) {
+            this.background = new StartMenu();
+            this.background.createBackground();
 
-       /* if(background instanceof StartMenu){
-            StartMenu startMenu = (StartMenu) background;
+            while(this.gameState == GameState.START){
+                Thread.sleep(this.delay);
+                changeState();
+            }
+        }
+
+        if (this.gameState == GameState.GAME) {
+            grid.init();
+            this.background = new GameBackground();
+            this.background.createBackground();
+            this.currentScore = 0;
+            String score = "Score: " + this.currentScore;
+            this.maxTargets = MAX_TARGETS;
+
+            //SCORE
+            Text playerScore = new Text(900, 30, score);
+            playerScore.draw();
+            playerScore.grow(40, 30);
+
+            this.player = new Player(0, grid);
+
+            while(this.gameState == GameState.GAME){
+
+                player.getWeapon().getAimer().move();
+
+                Thread.sleep(this.delay);
+
+                if(this.gameOver){
+                    break;
+                }
+            }
+        }
+
+        if (this.gameState == GameState.GAMEOVER){
+            while (this.gameState == GameState.GAMEOVER){
+
+            }
+        }
 
 
-        }*/
+
 
     }
 
-    public void startGame() {
-        //BACKGROUND && GRID
-        grid.init();
-        this.background = new GameBackground();
-        this.background.createBackground();
-        this.currentScore = 0;
-        String score = "Score: " + this.currentScore;
-        this.maxTargets = MAX_TARGETS;
+    private void setGameState(GameState gameState){
+        this.gameState = gameState;
+    }
 
-        //SCORE
-        Text playerScore = new Text(900, 30, score);
-        playerScore.draw();
-        playerScore.grow(40, 30);
 
-        this.player = new Player(0,grid);
+    private enum GameState {
+        START,
+        GAME,
+        GAMEOVER
+    }
 
-        //while (!gameOver){
-        //}
+    public void changeState(){
+
+        if (this.player.changeGameState()){
+            this.gameState = GameState.GAME;
+        }
+
     }
 }

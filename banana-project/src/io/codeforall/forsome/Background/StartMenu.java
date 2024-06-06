@@ -11,29 +11,28 @@ public class StartMenu extends Background{
     private int announcementInitialY;
 
     public StartMenu(){
-        this.logo = new Picture();
+        this.background = new Picture(PADDING,PADDING,"resources/duck-hunt.png");
     }
 
     @Override
     public void createBackground(){
-        this.background.load("resources/duck-hunt.png");
         super.createBackground();
-        this.background.grow(160,160);
-        this.background.translate(160,150);
+        //this.background.grow();
+        //this.background.translate(100,90);
         createLogo();
         createAnnouncement();
     }
 
     public void createLogo() {
-        this.logo.load("resources/logo.png");
+        this.logo = new Picture(PADDING,PADDING,"resources/logo.png");
         this.logo.draw();
-        this.logo.grow(-50,-50);
-        this.logo.translate(100,50);
+        this.logo.grow(-280,-80);
+        this.logo.translate(-80,-80);
 
     }
 
     public void createAnnouncement(){
-        this.announcement = new Picture(130,410, "resources/start-announcement.png");
+        this.announcement = new Picture(100,300, "resources/start-announcement.png");
         this.announcement.draw();
         this.announcement.grow(-180,-30);
         this.announcementInitialX = announcement.getX();

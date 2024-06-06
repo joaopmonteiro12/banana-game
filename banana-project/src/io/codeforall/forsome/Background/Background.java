@@ -4,6 +4,7 @@ import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 public class Background {
 
+    public static final int PADDING = 10;
     protected Picture background;
 
     public Background() {

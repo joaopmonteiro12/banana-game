@@ -16,6 +16,7 @@ public class Player implements KeyboardHandler {
     private Weapon weapon;
     private Keyboard keyboard;
     private Grid grid;
+    private boolean isPlaying;
 
     public Player(int score, Grid grid) {
         this.score = score;
@@ -23,6 +24,7 @@ public class Player implements KeyboardHandler {
         this.weapon = new Weapon();
         addKeyboard();
         this.grid = grid;
+        this.isPlaying = false;
 
     }
 
@@ -110,19 +112,18 @@ public class Player implements KeyboardHandler {
         int keyPressed = keyboardEvent.getKey();
         if (keyPressed == keyboardEvent.KEY_RIGHT) {
             this.weapon.aimer.isMovingRight = true;
-            this.weapon.aimer.move();
         }
         if (keyPressed == keyboardEvent.KEY_LEFT) {
             this.weapon.aimer.isMovingLeft = true;
-            this.weapon.aimer.move();
         }
         if (keyPressed == keyboardEvent.KEY_UP) {
             this.weapon.aimer.isMovingUp = true;
-            this.weapon.aimer.move();
         }
         if (keyPressed == keyboardEvent.KEY_DOWN) {
             this.weapon.aimer.isMovingDown = true;
-            this.weapon.aimer.move();
+        }
+        if (keyPressed == keyboardEvent.KEY_SPACE){
+            this.isPlaying = true;
         }
 
 
@@ -143,6 +144,10 @@ public class Player implements KeyboardHandler {
         if (keyReleased == keyboardEvent.KEY_DOWN) {
             this.weapon.aimer.isMovingDown = false;
         }
+    }
+
+    public boolean changeGameState (){
+        return isPlaying;
     }
 
     //NESTED AIMER
@@ -182,26 +187,25 @@ public class Player implements KeyboardHandler {
 
             if (this.isMovingRight) {
                 if (this.aimer.getMaxX() < gameGrid.getWidth()) {
-                    this.aimer.translate(20, 0);
+                    this.aimer.translate(10, 0);
                 }
             }
             if (this.isMovingLeft) {
                 if (this.aimer.getX() > 0) {
-                    this.aimer.translate(-20, 0);
+                    this.aimer.translate(-10, 0);
                 }
             }
             if (this.isMovingUp) {
                 if (this.aimer.getY() > 0) {
-                    this.aimer.translate(0, -20);
+                    this.aimer.translate(0, -10);
                 }
             }
             if (this.isMovingDown) {
                 if (this.aimer.getMaxY() < gameGrid.getHeight()) {
-                    this.aimer.translate(0, 20);
+                    this.aimer.translate(0, 10);
                 }
             }
 
-            System.out.println("Aimer moved to position (" + x + ", " + y + ")");
         }
 
         @Override
@@ -240,6 +244,8 @@ public class Player implements KeyboardHandler {
     //NESTED WEAPON
     public class Weapon {
 
+
+
         private Aimer aimer;
         private int maxBullets;
         private int remainingBullets;
@@ -256,6 +262,14 @@ public class Player implements KeyboardHandler {
 
         public int getRemainingBullets() {
             return this.remainingBullets;
+        }
+
+        public Aimer getAimer() {
+            return aimer;
+        }
+
+        public void setAimer(Aimer aimer) {
+            this.aimer = aimer;
         }
 
         public void fire() {
