@@ -6,10 +6,12 @@ import io.codeforall.forsome.Grid.Grid;
 import io.codeforall.forsome.Grid.GameGrid;
 import io.codeforall.forsome.Grid.GridFactory;
 import io.codeforall.forsome.Targets.Target;
+import io.codeforall.forsome.Targets.TargetFactory;
 import org.academiadecodigo.simplegraphics.graphics.Canvas;
 import org.academiadecodigo.simplegraphics.graphics.Text;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import io.codeforall.forsome.Background.StartMenu;
+import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,7 @@ public class Game {
     private boolean gameOver;
     private int maxTargets;
     private GameState gameState;
+    private Picture picture;
 
     public Game(int cols, int rows, int delay) {
         createCanvas(cols, rows);
@@ -68,6 +71,12 @@ public class Game {
             String score = "Score: " + this.currentScore;
             this.maxTargets = MAX_TARGETS;
 
+            this.targets = new ArrayList<>();
+            TargetFactory targetFactory = new TargetFactory((GameGrid) grid);
+            // Criar apenas um alvo inicial
+            targets.add(targetFactory.createTarget());
+
+            this.player.setTargets(targets);
             this.player.startTargetMovement();
 
             //SCORE

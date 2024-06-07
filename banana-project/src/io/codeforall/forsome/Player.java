@@ -16,8 +16,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-
-
 public class Player implements KeyboardHandler {
 
     private int score;
@@ -26,7 +24,6 @@ public class Player implements KeyboardHandler {
     private Grid grid;
     private boolean isPlaying;
     private List<Target> targets;
-    private TargetFactory targetFactory;
     private ScheduledExecutorService executorService;
 
     public Player(int score, Grid grid) {
@@ -37,32 +34,22 @@ public class Player implements KeyboardHandler {
         this.grid = grid;
         this.isPlaying = false;
         this.targets = new ArrayList<>();
-        this.targetFactory = new TargetFactory((GameGrid) grid);
         this.executorService = Executors.newScheduledThreadPool(1);
-
-
-        // criar alguns alvos iniciais
-        for (int i = 0; i < 5; i++) {
-            targets.add(targetFactory.createTarget());
-        }
-
-        startTargetMovement();
-
     }
 
-    // Inicia o movimento contínuo dos alvos
+    public void setTargets(List<Target> targets) {
+        this.targets = targets;
+    }
 
-
-    // Método para iniciar o movimento contínuo dos alvos
     public void startTargetMovement() {
         executorService.scheduleAtFixedRate(() -> {
             for (Target target : targets) {
                 target.move();
+                System.out.println("Olha aqui!!!");
             }
         }, 0, 500, TimeUnit.MILLISECONDS); // Move os alvos a cada 500ms
     }
 
-    // Método para remover um alvo da lista
     public void removeTarget(Target target) {
         targets.remove(target);
         if (targets.isEmpty()) {
@@ -70,23 +57,9 @@ public class Player implements KeyboardHandler {
         }
     }
 
-    // Método para encerrar o jogo
     private void endGame() {
         System.out.println("Game Over! All targets have been destroyed.");
         executorService.shutdown();
-    }
-    public int getScore() {
-        return this.score;
-    }
-
-    public void winPoints(int points) {
-        this.score = this.score + points;
-    }
-
-    public void loosePoints(int points) {
-        if (this.score >= points) {
-            this.score = this.score - points;
-        }
     }
 
     public Weapon getWeapon() {
