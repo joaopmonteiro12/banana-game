@@ -2,6 +2,7 @@ package io.codeforall.forsome;
 
 import io.codeforall.forsome.Background.Background;
 import io.codeforall.forsome.Background.GameBackground;
+import io.codeforall.forsome.Background.GameOverBackground;
 import io.codeforall.forsome.Grid.Grid;
 import io.codeforall.forsome.Grid.GameGrid;
 import io.codeforall.forsome.Grid.GridFactory;
@@ -18,19 +19,17 @@ import java.util.List;
 
 public class Game {
 
-    public final int MAX_TARGETS = 25;
+    public final int MAX_TARGETS = 15;
     private Grid grid;
     private int delay;
     private Player player;
     private List<Target> targets;
-    private Keyboard keyboard;
     private Background background;
     private int highScore;
     private int currentScore;
     private boolean gameOver;
     private int maxTargets;
     private GameState gameState;
-    private Picture picture;
 
     public Game(int cols, int rows, int delay) {
         createCanvas(cols, rows);
@@ -38,6 +37,7 @@ public class Game {
         this.delay = delay;
         this.gameOver = false;
         this.gameState = GameState.START;
+        this.maxTargets = MAX_TARGETS;
     }
 
     public void createCanvas(int cols, int rows) {
@@ -53,11 +53,16 @@ public class Game {
     public void startGame() throws InterruptedException {
         this.player = new Player(0, grid);
 
+        GameGrid gameGrid = null;
+        if (grid instanceof GameGrid) {
+            gameGrid = (GameGrid) grid;
+        }
+
         if (this.gameState == GameState.START) {
             this.background = new StartMenu();
             this.background.createBackground();
 
-            while(this.gameState == GameState.START){
+            while (this.gameState == GameState.START) {
                 Thread.sleep(this.delay);
                 changeState();
             }
@@ -70,14 +75,13 @@ public class Game {
             this.currentScore = 0;
             String score = "Score: " + this.currentScore;
             this.maxTargets = MAX_TARGETS;
+            this.player.setPlaying(true);
+            this.targets = new ArrayList<>(MAX_TARGETS);
 
-            this.targets = new ArrayList<>();
-            TargetFactory targetFactory = new TargetFactory((GameGrid) grid);
-            // Criar apenas um alvo inicial
-            targets.add(targetFactory.createTarget());
+            for (int i = 0; i < MAX_TARGETS; i++) {
+                targets.add(TargetFactory.createTarget(gameGrid));
+            }
 
-            this.player.setTargets(targets);
-            this.player.startTargetMovement();
 
             //SCORE
             Text playerScore = new Text(720, 30, score);
@@ -86,30 +90,45 @@ public class Game {
 
             this.player = new Player(0, grid);
 
-            while(this.gameState == GameState.GAME){
+            while (this.gameState == GameState.GAME && !this.gameOver) {
 
-                player.getWeapon().getAimer().move();
+                for (Target target : targets) {
+                    target.createTarget(target.getX(), target.getY(), target.getFilepath());
+                    while (target.isActive()) {
+                        player.getWeapon().getAimer().move();
+                        player.shoot(target);
+                        target.move();
 
-                Thread.sleep(this.delay);
+                        Thread.sleep(this.delay);
 
-                if(this.gameOver){
-                    break;
+                        if (!target.isActive()) {
+                            target.deleteTarget();
+                            targets.remove(target);
+                            continue;
+                        }
+
+                        if (this.gameOver || this.player.getWeapon().getBulletsLeft() == 0) {
+                            this.gameState = GameState.GAMEOVER;
+                        }
+                    }
+
                 }
             }
         }
 
-        if (this.gameState == GameState.GAMEOVER){
-            while (this.gameState == GameState.GAMEOVER){
+        if (this.gameState == GameState.GAMEOVER) {
+            this.background = new GameOverBackground();
+            this.background.createBackground();
 
+            while (this.gameState == GameState.GAMEOVER) {
+                Thread.sleep(this.delay);
             }
+            this.background = new StartMenu();
+            this.background.createBackground();
         }
-
-
-
-
     }
 
-    private void setGameState(GameState gameState){
+    private void setGameState(GameState gameState) {
         this.gameState = gameState;
     }
 
@@ -120,9 +139,9 @@ public class Game {
         GAMEOVER
     }
 
-    public void changeState(){
+    public void changeState() {
 
-        if (this.player.changeGameState()){
+        if (this.player.changeGameState()) {
             this.gameState = GameState.GAME;
         }
 

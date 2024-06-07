@@ -1,9 +1,8 @@
 package io.codeforall.forsome;
+
 import io.codeforall.forsome.Grid.GameGrid;
 import io.codeforall.forsome.Grid.Grid;
-import io.codeforall.forsome.Targets.Movable;
-import io.codeforall.forsome.Targets.Target;
-import io.codeforall.forsome.Targets.TargetFactory;
+import io.codeforall.forsome.Targets.*;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -22,6 +21,7 @@ public class Player implements KeyboardHandler {
     private Weapon weapon;
     private Keyboard keyboard;
     private Grid grid;
+
     private boolean isPlaying;
     private List<Target> targets;
     private ScheduledExecutorService executorService;
@@ -37,29 +37,23 @@ public class Player implements KeyboardHandler {
         this.executorService = Executors.newScheduledThreadPool(1);
     }
 
-    public void setTargets(List<Target> targets) {
-        this.targets = targets;
+    public boolean isPlaying() {
+        return isPlaying;
     }
 
-    public void startTargetMovement() {
-        executorService.scheduleAtFixedRate(() -> {
-            for (Target target : targets) {
-                target.move();
-                System.out.println("Olha aqui!!!");
-            }
-        }, 0, 500, TimeUnit.MILLISECONDS); // Move os alvos a cada 500ms
+    public void setPlaying(boolean playing) {
+        isPlaying = playing;
+    }
+
+    public void setTargets(List<Target> targets) {
+        this.targets = targets;
     }
 
     public void removeTarget(Target target) {
         targets.remove(target);
         if (targets.isEmpty()) {
-            endGame();
+            //isPlaying = false;
         }
-    }
-
-    private void endGame() {
-        System.out.println("Game Over! All targets have been destroyed.");
-        executorService.shutdown();
     }
 
     public Weapon getWeapon() {
@@ -70,13 +64,10 @@ public class Player implements KeyboardHandler {
         this.weapon = weapon;
     }
 
-    public void shoot() {
-        weapon.fire();
+    public void shoot(Target target) {
+        weapon.fire(target);
     }
 
-        /*public void weaponReload() {
-            weapon.reload();
-        }*/
 
     //KEYBOARD STUFF
     public void addKeyboard() {
@@ -125,6 +116,21 @@ public class Player implements KeyboardHandler {
         startGame.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(startGame);
 
+        KeyboardEvent shootPress = new KeyboardEvent();
+        shootPress.setKey(KeyboardEvent.KEY_F);
+        shootPress.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(shootPress);
+
+        KeyboardEvent shootRelease = new KeyboardEvent();
+        shootRelease.setKey(KeyboardEvent.KEY_F);
+        shootRelease.setKeyboardEventType(KeyboardEventType.KEY_RELEASED);
+        keyboard.addEventListener(shootRelease);
+
+        KeyboardEvent reload = new KeyboardEvent();
+        reload.setKey(KeyboardEvent.KEY_R);
+        reload.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(reload);
+
     }
 
     @Override
@@ -142,8 +148,14 @@ public class Player implements KeyboardHandler {
         if (keyPressed == keyboardEvent.KEY_DOWN) {
             this.weapon.aimer.isMovingDown = true;
         }
-        if (keyPressed == keyboardEvent.KEY_SPACE){
+        if (keyPressed == keyboardEvent.KEY_SPACE) {
             this.isPlaying = true;
+        }
+        if (keyPressed == keyboardEvent.KEY_F) {
+            this.weapon.isShooting = true;
+        }
+        if (keyPressed == keyboardEvent.KEY_R){
+            this.weapon.reload();
         }
 
 
@@ -164,9 +176,12 @@ public class Player implements KeyboardHandler {
         if (keyReleased == keyboardEvent.KEY_DOWN) {
             this.weapon.aimer.isMovingDown = false;
         }
+        if (keyReleased == keyboardEvent.KEY_F) {
+            this.weapon.isShooting = false;
+        }
     }
 
-    public boolean changeGameState (){
+    public boolean changeGameState() {
         return isPlaying;
     }
 
@@ -182,6 +197,8 @@ public class Player implements KeyboardHandler {
         private int x;
         private int y;
         private Picture aimer;
+        //private GameGrid.Cell[][] cells;
+        //private GameGrid currentCell;
 
 
         // Construtor
@@ -230,11 +247,23 @@ public class Player implements KeyboardHandler {
 
         @Override
         public void checkCollision(Target target) {
-            if (x == target.getX() && y == target.getY()) {
+           int aimerX = aimer.getMaxX() - aimer.getWidth() / 2;
+           int aimerY = aimer.getMaxY() - aimer.getHeight() / 2;
+
+           int targetUpperLeftCornerX = target.getPicture().getX();
+           int targetUpperLeftCornerY = target.getPicture().getY();
+           int targetLowerLeftCornerY = target.getPicture().getMaxY();
+           int targetUpperRightCornerX = target.getPicture().getMaxX();
+
+
+            if (aimerX > targetUpperLeftCornerX && aimerX < targetUpperRightCornerX && aimerY > targetUpperLeftCornerY && aimerY < targetLowerLeftCornerY) {
                 System.out.println("Collision detected at position (" + x + ", " + y + ")");
-                targets.remove(target);
+                target.changeActive(false);
+                if (target instanceof Henrique){
+                    //isPlaying = false;
+                }
             }
-            System.out.println("No collision at position (" + x + ", " + y + ")");
+            System.out.println("No collision at position (" + aimer.getX() + ", " + aimer.getY() + ")");
         }
 
 
@@ -256,7 +285,7 @@ public class Player implements KeyboardHandler {
         public void createAimer() {
             this.aimer.load("resources/aim-small.png");
             this.aimer.draw();
-            this.aimer.translate(500,450);
+            this.aimer.translate(500, 450);
         }
 
     }
@@ -265,11 +294,16 @@ public class Player implements KeyboardHandler {
     public class Weapon {
 
 
-
         private Aimer aimer;
         private int maxBullets;
         private int remainingBullets;
         private int bulletsLeft;
+
+
+
+        private boolean isShooting;
+
+
 
 
         public Weapon() {
@@ -277,9 +311,16 @@ public class Player implements KeyboardHandler {
             this.maxBullets = 25;
             this.remainingBullets = 5;
             this.bulletsLeft = maxBullets;
-
+            this.isShooting = false;
         }
 
+        public int getBulletsLeft() {
+            return bulletsLeft;
+        }
+
+        public void setBulletsLeft(int bulletsLeft) {
+            this.bulletsLeft = bulletsLeft;
+        }
         public int getRemainingBullets() {
             return this.remainingBullets;
         }
@@ -292,23 +333,36 @@ public class Player implements KeyboardHandler {
             this.aimer = aimer;
         }
 
-        public void fire() {
-            if (remainingBullets > 0) {
-                System.out.println("Pew pew! Shots fired.");
-                remainingBullets--;
-                bulletsLeft--;
-            } else if (bulletsLeft > 0) {
-                System.out.println("RELOAD RELOAD RELOAD");
-            } else
-                System.out.println("Game Over!!");
+        public boolean isShooting() {
+            return isShooting;
+        }
+
+        public void setShooting(boolean shooting) {
+            isShooting = shooting;
+        }
+        public void fire(Target target) {
+
+            if (isShooting) {
+                if (remainingBullets > 0) {
+                    System.out.println("Pew pew! Shots fired.");
+                    remainingBullets--;
+                    bulletsLeft--;
+                    weapon.aimer.checkCollision(target);
+                    isShooting = false;
+                } else if (bulletsLeft > 0) {
+                    System.out.println("RELOAD RELOAD RELOAD");
+                } else
+                    System.out.println("Game Over!!");
+            }
+
         }
 
 
-            /*public void reload() {
+            public void reload() {
                 if (bulletsLeft > 0) {
-                    remainingBullets = remainingBullets + 5;
+                    remainingBullets += 5;
                     System.out.println("Weapon reloaded.");
-                    switch (bulletsLeft) {
+                    /*switch (bulletsLeft) {
                         case 20:
                             picture5.delete();
                             break;
@@ -323,10 +377,13 @@ public class Player implements KeyboardHandler {
                             break;
                         case 0:
                             picture1.delete();
-                    }
+                            break;
+
+                    }*/
+
                 }
                 System.out.println("You are out of ammo..");
-            }*/
+            }
     }
 }
 

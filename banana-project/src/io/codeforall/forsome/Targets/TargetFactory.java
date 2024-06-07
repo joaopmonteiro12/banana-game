@@ -6,20 +6,14 @@ import java.util.Random;
 
 public class TargetFactory {
 
-    private GameGrid gameGrid;
-
-    public TargetFactory(GameGrid gameGrid) {
-        this.gameGrid = gameGrid;
-    }
-
-    public Target createTarget() {
+    public static Target createTarget(GameGrid gameGrid) {
         Random random = new Random();
         TargetType type = TargetType.values()[random.nextInt(TargetType.values().length)];
-
+        String file = type.getPath();
         // Define a posição inicial do alvo fora da tela
         int x = -20; // Começa fora da tela à esquerda
-        int y = random.nextInt(gameGrid.getHeight()); // Em uma posição aleatória verticalmente
+        int y = (int) Math.round(Math.random() * (gameGrid.getHeight()/2)); // Em uma posição aleatória verticalmente
 
-        return new Target(x, y, type, gameGrid);
+        return new Target(x, y, type, file, gameGrid);
     }
 }

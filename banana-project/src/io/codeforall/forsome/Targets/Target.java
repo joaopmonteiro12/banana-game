@@ -10,77 +10,73 @@ public class Target implements Destructible, Movable {
     private boolean isActive;
     private TargetType type;
     private GameGrid gameGrid;
+    private String filepath;
+
+
+
     private Picture picture;
-    private static final int STEP_SIZE = 20; // Tamanho do passo do movimento
+    //private GameGrid.Cell[][] cells;
+    //private GameGrid.Cell cell;
+    private static final int STEP_SIZE = 5; // Tamanho do passo do movimento
 
 
     // Construtor
-    public Target(int x, int y, TargetType type, GameGrid gameGrid) {
+    public Target(int x, int y, TargetType type, String file, GameGrid gameGrid) {
         this.x = x;
         this.y = y;
         this.type = type;
         this.isActive = true;
         this.gameGrid = gameGrid;
-        this.picture = picture;
-
-        createTarget();
+        this.filepath = file;
     }
+
+    public String getFilepath() {
+        return filepath;
+    }
+
+    public void setFilepath(String filepath) {
+        this.filepath = filepath;
+    }
+
 
     @Override
-    public void createTarget() {
-        //Carregar a imagem correspondente ao tipo de alvo
-       /*String imagePath = "";
-         switch (type) {
-            case MEKIE:
-                imagePath = "resources/aim-small.png";
-                break;
-             case MAFALDA:
-                imagePath = "resources/aim-small.png";
-                break;
-             case PAPANOZK:
-                imagePath = "resources/aim-small.png";
-                break;
-        } */
-        Picture teste = new Picture();
-        teste.load("resources/aim-small.png");
-        teste.draw();
-        System.out.println("Target created at position (" + x + ", " + y + ") with type " + type);
+    public void createTarget(int x,int y,String file) {
+        this.picture = new Picture(x, y, file);
+        this.picture.draw();
     }
+
     // NEW DELETE TARGET
     @Override
     public void deleteTarget() {
         this.isActive = false;
-      //  picture.delete();
+        this.picture.delete();
         System.out.println("Target at position (" + x + ", " + y + ") is deleted.");
     }
 
     @Override
     public void move() {
-       /* if (isActive) {
-            if (x < gameGrid.getWidth()) {
-                x += STEP_SIZE; // Move para a direita para dentro da tela
-            } else {
-                x = -STEP_SIZE; // Reinicia a posição horizontal quando sai do lado direito da tela
-            }
-            System.out.println(type + " Target moved to position (" + x + ", " + y + ")");
-        } else {
-            System.out.println("Cannot move. Target is inactive.");
-        }*/
         if (isActive) {
             int xInitial = x;
             int yInitial = y;
 
             // Atualiza a posição no grid
             x += STEP_SIZE;
-            if (x > gameGrid.getWidth()) {
+            if (x > gameGrid.getWidth() - 90) {
                 x = -STEP_SIZE; // Reinicia a posição horizontal quando sai do lado direito da tela
+                if(type == TargetType.HENRIQUE){
+                    deleteTarget();
+
+                    return;
+                }
             }
 
             int xDistancePixels = (x - xInitial);
             int yDistancePixels = (y - yInitial);
 
-           // picture.translate(xDistancePixels, yDistancePixels);
-            System.out.println(type + " Target moved to position (" + x + ", " + y + ")");
+            this.picture.translate(xDistancePixels, yDistancePixels);
+
+
+            //System.out.println(type + " Target moved to position (" + x + ", " + y + ")");
         } else {
             System.out.println("Cannot move. Target is inactive.");
         }
@@ -89,6 +85,9 @@ public class Target implements Destructible, Movable {
     @Override
     public void checkCollision(Target target) {
         // Implementação do método de verificação de colisão
+
+
+
     }
 
     // Métodos adicionais que podem ser úteis
@@ -102,6 +101,26 @@ public class Target implements Destructible, Movable {
 
     public boolean isActive() {
         return isActive;
+    }
+
+    public void changeActive(boolean value){
+        this.isActive = value;
+    }
+
+    public int getWidth(){
+        return this.picture.getWidth();
+    }
+
+    public int getHeight(){
+        return this.picture.getHeight();
+    }
+
+    public Picture getPicture() {
+        return picture;
+    }
+
+    public void setPicture(Picture picture) {
+        this.picture = picture;
     }
 }
 
