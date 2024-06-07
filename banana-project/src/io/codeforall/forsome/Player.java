@@ -197,8 +197,6 @@ public class Player implements KeyboardHandler {
         private int x;
         private int y;
         private Picture aimer;
-        //private GameGrid.Cell[][] cells;
-        //private GameGrid currentCell;
 
 
         // Construtor
@@ -285,7 +283,7 @@ public class Player implements KeyboardHandler {
         public void createAimer() {
             this.aimer.load("resources/aim-small.png");
             this.aimer.draw();
-            this.aimer.translate(500, 450);
+            this.aimer.translate(397, 350);
         }
 
     }
