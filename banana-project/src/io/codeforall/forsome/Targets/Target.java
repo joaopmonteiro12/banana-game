@@ -8,7 +8,7 @@ public class Target implements Destructible, Movable {
     private int x;
     private int y;
     private boolean isActive;
-    private TargetType type;
+    public TargetType type;
     private GameGrid gameGrid;
     private String filepath;
 

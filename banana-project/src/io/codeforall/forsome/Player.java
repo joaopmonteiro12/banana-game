@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Player implements KeyboardHandler {
 
+    public boolean setPlaying;
     private int score;
     private Weapon weapon;
     private Keyboard keyboard;
@@ -32,7 +33,7 @@ public class Player implements KeyboardHandler {
         this.weapon = new Weapon();
         addKeyboard();
         this.grid = grid;
-        this.isPlaying = false;
+        this.isPlaying = true;
         this.targets = new ArrayList<>();
         this.executorService = Executors.newScheduledThreadPool(1);
     }
@@ -154,7 +155,7 @@ public class Player implements KeyboardHandler {
         if (keyPressed == keyboardEvent.KEY_F) {
             this.weapon.isShooting = true;
         }
-        if (keyPressed == keyboardEvent.KEY_R){
+        if (keyPressed == keyboardEvent.KEY_R) {
             this.weapon.reload();
         }
 
@@ -245,20 +246,20 @@ public class Player implements KeyboardHandler {
 
         @Override
         public void checkCollision(Target target) {
-           int aimerX = aimer.getMaxX() - aimer.getWidth() / 2;
-           int aimerY = aimer.getMaxY() - aimer.getHeight() / 2;
+            int aimerX = aimer.getMaxX() - aimer.getWidth() / 2;
+            int aimerY = aimer.getMaxY() - aimer.getHeight() / 2;
 
-           int targetUpperLeftCornerX = target.getPicture().getX();
-           int targetUpperLeftCornerY = target.getPicture().getY();
-           int targetLowerLeftCornerY = target.getPicture().getMaxY();
-           int targetUpperRightCornerX = target.getPicture().getMaxX();
+            int targetUpperLeftCornerX = target.getPicture().getX();
+            int targetUpperLeftCornerY = target.getPicture().getY();
+            int targetLowerLeftCornerY = target.getPicture().getMaxY();
+            int targetUpperRightCornerX = target.getPicture().getMaxX();
 
 
             if (aimerX > targetUpperLeftCornerX && aimerX < targetUpperRightCornerX && aimerY > targetUpperLeftCornerY && aimerY < targetLowerLeftCornerY) {
                 System.out.println("Collision detected at position (" + x + ", " + y + ")");
                 target.changeActive(false);
 
-                if (target instanceof Henrique){
+                if (target.type == TargetType.HENRIQUE) {
                     setPlaying(false);
                     System.out.println("AAAAHH MATARAM ME!");
                 }
@@ -300,10 +301,7 @@ public class Player implements KeyboardHandler {
         private int bulletsLeft;
 
 
-
         private boolean isShooting;
-
-
 
 
         public Weapon() {
@@ -321,6 +319,7 @@ public class Player implements KeyboardHandler {
         public void setBulletsLeft(int bulletsLeft) {
             this.bulletsLeft = bulletsLeft;
         }
+
         public int getRemainingBullets() {
             return this.remainingBullets;
         }
@@ -340,6 +339,7 @@ public class Player implements KeyboardHandler {
         public void setShooting(boolean shooting) {
             isShooting = shooting;
         }
+
         public void fire(Target target) {
 
             if (isShooting) {
@@ -358,10 +358,10 @@ public class Player implements KeyboardHandler {
         }
 
 
-            public void reload() {
-                if (bulletsLeft > 0) {
-                    remainingBullets += 5;
-                    System.out.println("Weapon reloaded.");
+        public void reload() {
+            if (bulletsLeft > 0) {
+                remainingBullets += 5;
+                System.out.println("Weapon reloaded.");
                     /*switch (bulletsLeft) {
                         case 20:
                             picture5.delete();
@@ -381,9 +381,9 @@ public class Player implements KeyboardHandler {
 
                     }*/
 
-                }
-                System.out.println("You are out of ammo..");
             }
+            System.out.println("You are out of ammo..");
+        }
     }
 }
 

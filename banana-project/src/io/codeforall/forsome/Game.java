@@ -95,32 +95,32 @@ public class Game {
 
                 for (Target target : targets) {
                     target.createTarget(target.getX(), target.getY(), target.getFilepath());
-                    while (target.isActive()) {
+                    while (target.isActive() && player.isPlaying()) {
                         player.getWeapon().getAimer().move();
                         player.shoot(target);
                         target.move();
 
                         Thread.sleep(this.delay);
 
-                        if (!target.isActive()) {
-                            /*if (target instanceof Henrique) {
-                                player.setPlaying(false);
-                                System.out.println("AAHHHH MATARAM ME!");
-                            }*/
-                            target.deleteTarget();
-                            player.removeTarget(target);
-                        }
-
                         if (!player.isPlaying()) {
                             this.gameOver = true;
                         }
                     }
+                    if (!target.isActive()) {
+                        target.deleteTarget();
+                        player.removeTarget(target);
+                    }
 
                 }
+                //if (this.gameOver || this.player.getWeapon().getBulletsLeft() == 0) {
+                    this.gameState = GameState.GAMEOVER;
+                    for (Target target : targets) {
+                        target.deleteTarget();
+                        player.removeTarget(target);
+                    }
+               // }
             }
-            if (this.gameOver || this.player.getWeapon().getBulletsLeft() == 0) {
-                this.gameState = GameState.GAMEOVER;
-            }
+
         }
 
         if (this.gameState == GameState.GAMEOVER) {
