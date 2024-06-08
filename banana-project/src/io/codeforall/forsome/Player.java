@@ -316,7 +316,7 @@ public class Player implements KeyboardHandler {
 
         //CREATE AIMER
         public void createAimer() {
-            this.aimer.load("resources/aim-small.png");
+            this.aimer.load("src/resources/aim-small.png");
             this.aimer.draw();
             this.aimer.translate(397, 350);
         }
@@ -331,10 +331,10 @@ public class Player implements KeyboardHandler {
         private int maxBullets;
         private int remainingBullets;
         private int bulletsLeft;
-
-
         private boolean isShooting;
 
+        private Picture reloadWarning; // Adicionar a imagem de aviso
+        private Picture bulletsPic;
 
         public Weapon() {
             this.aimer = new Aimer(0, 0);
@@ -342,6 +342,9 @@ public class Player implements KeyboardHandler {
             this.remainingBullets = 5;
             this.bulletsLeft = maxBullets;
             this.isShooting = false;
+            this.reloadWarning = new Picture(280, 250, "src/resources/reloadWarning.png");
+            this.reloadWarning.grow(50, 30);
+            this.bulletsPic = new Picture();
         }
 
         public int getBulletsLeft() {
@@ -376,11 +379,11 @@ public class Player implements KeyboardHandler {
 
             if (isShooting) {
                 if (remainingBullets > 0) {
-                    System.out.println("Pew pew! Shots fired.");
                     remainingBullets--;
                     bulletsLeft--;
                     weapon.aimer.checkCollision(target);
                     isShooting = false;
+                    pewpew();
                 } else if (bulletsLeft > 0) {
                     System.out.println("RELOAD RELOAD RELOAD");
                 } else
@@ -392,31 +395,83 @@ public class Player implements KeyboardHandler {
 
         public void reload() {
             if (bulletsLeft > 0) {
-                remainingBullets += 5;
+                bulletsLeft -= remainingBullets;
+                remainingBullets = 5;
+                System.out.println(remainingBullets);
+                fiveBullets();
                 System.out.println("Weapon reloaded.");
-                    /*switch (bulletsLeft) {
-                        case 20:
-                            picture5.delete();
-                            break;
-                        case 15:
-                            picture4.delete();
-                            break;
-                        case 10:
-                            picture3.delete();
-                            break;
-                        case 5:
-                            picture2.delete();
-                            break;
-                        case 0:
-                            picture1.delete();
-                            break;
-
-                    }*/
-
             }
             System.out.println("You are out of ammo..");
         }
+
+        public void reloadWarning() {
+
+            if (bulletsLeft > 0 && remainingBullets == 0) {
+                showWarning();
+            }
+            if (remainingBullets > 0) {
+                reloadWarning.delete();
+            }
+        }
+
+        public void showWarning() {
+            reloadWarning.load("src/resources/reloadWarning.png");
+            reloadWarning.draw();
+        }
+
+        public void pewpew() {
+            if (bulletsPic != null) {
+                bulletsPic.delete();
+            }
+            System.out.println("is pewpewing");
+
+            switch (getRemainingBullets()) {
+                /*case 5:
+                    bulletsPic.load("src/resources/bullet5.png");
+                    bulletsPic.draw();
+                    System.out.println("case5" + getRemainingBullets());
+                    break;*/
+                case 4:
+                    bulletsPic.load("src/resources/bullet4.png");
+                    //weapon.bulletsPic.translate(400, 400);
+                    System.out.println("case4"+ getRemainingBullets());
+                    bulletsPic.draw();
+                    break;
+                case 3:
+                    bulletsPic.load("src/resources/bullet3.png");
+                    //weapon.bulletsPic.translate(400, 400);
+                    System.out.println("case3"+ getRemainingBullets());
+                    bulletsPic.draw();
+                    break;
+                case 2:
+                    bulletsPic.load("src/resources/bullet2.png");
+                    //weapon.bulletsPic.translate(400, 400);
+                    System.out.println("case2"+ getRemainingBullets());
+
+                    bulletsPic.draw();
+                    break;
+                case 1:
+                    bulletsPic.load("src/resources/bullet1.png");
+                    //weapon.bulletsPic.translate(400, 400);
+                    bulletsPic.draw();
+                    System.out.println("case1"+ getRemainingBullets());
+                    break;
+                case 0:
+                    bulletsPic.delete();
+                    break;
+            }
+
+        }
+
+        public void fiveBullets() {
+            bulletsPic.load("src/resources/bullet5.png");
+            //weapon.bulletsPic.translate(60,580);
+            bulletsPic.draw();
+        }
+
     }
+
+
 }
 
 
