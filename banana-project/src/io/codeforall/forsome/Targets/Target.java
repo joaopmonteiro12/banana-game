@@ -15,8 +15,6 @@ public class Target implements Destructible, Movable {
 
 
     private Picture picture;
-    //private GameGrid.Cell[][] cells;
-    //private GameGrid.Cell cell;
     private static final int STEP_SIZE = 5; // Tamanho do passo do movimento
 
 

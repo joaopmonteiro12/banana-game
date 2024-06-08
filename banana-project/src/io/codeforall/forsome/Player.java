@@ -257,8 +257,10 @@ public class Player implements KeyboardHandler {
             if (aimerX > targetUpperLeftCornerX && aimerX < targetUpperRightCornerX && aimerY > targetUpperLeftCornerY && aimerY < targetLowerLeftCornerY) {
                 System.out.println("Collision detected at position (" + x + ", " + y + ")");
                 target.changeActive(false);
+
                 if (target instanceof Henrique){
-                    //isPlaying = false;
+                    setPlaying(false);
+                    System.out.println("AAAAHH MATARAM ME!");
                 }
             }
             System.out.println("No collision at position (" + aimer.getX() + ", " + aimer.getY() + ")");

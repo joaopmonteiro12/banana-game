@@ -6,6 +6,7 @@ import io.codeforall.forsome.Background.GameOverBackground;
 import io.codeforall.forsome.Grid.Grid;
 import io.codeforall.forsome.Grid.GameGrid;
 import io.codeforall.forsome.Grid.GridFactory;
+import io.codeforall.forsome.Targets.Henrique;
 import io.codeforall.forsome.Targets.Target;
 import io.codeforall.forsome.Targets.TargetFactory;
 import org.academiadecodigo.simplegraphics.graphics.Canvas;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class Game {
 
-    public final int MAX_TARGETS = 15;
+    public final int MAX_TARGETS = 10;
     private Grid grid;
     private int delay;
     private Player player;
@@ -102,17 +103,23 @@ public class Game {
                         Thread.sleep(this.delay);
 
                         if (!target.isActive()) {
+                            /*if (target instanceof Henrique) {
+                                player.setPlaying(false);
+                                System.out.println("AAHHHH MATARAM ME!");
+                            }*/
                             target.deleteTarget();
-                            targets.remove(target);
-                            continue;
+                            player.removeTarget(target);
                         }
 
-                        if (this.gameOver || this.player.getWeapon().getBulletsLeft() == 0) {
-                            this.gameState = GameState.GAMEOVER;
+                        if (!player.isPlaying()) {
+                            this.gameOver = true;
                         }
                     }
 
                 }
+            }
+            if (this.gameOver || this.player.getWeapon().getBulletsLeft() == 0) {
+                this.gameState = GameState.GAMEOVER;
             }
         }
 
