@@ -10,7 +10,7 @@ public class TargetFactory {
         Random random = new Random();
         TargetType type = TargetType.values()[random.nextInt(TargetType.values().length)];
         String file = type.getPath();
-        int targetScore = 100;
+        int targetScore = type.getPoints();
         // Define a posição inicial do alvo fora da tela
         int x = -20; // Começa fora da tela à esquerda
         int y = (int) Math.round(Math.random() * (gameGrid.getHeight()/2)); // Em uma posição aleatória verticalmente

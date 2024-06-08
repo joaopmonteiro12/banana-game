@@ -9,6 +9,7 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -24,6 +25,7 @@ public class Player implements KeyboardHandler {
     private boolean isPlaying;
     private List<Target> targets;
     private ScheduledExecutorService executorService;
+    private boolean restart;
 
     public Player(int score, Grid grid, boolean isPlaying) {
         this.score = score;
@@ -34,20 +36,14 @@ public class Player implements KeyboardHandler {
         this.isPlaying = isPlaying;
         this.targets = new ArrayList<>();
         this.executorService = Executors.newScheduledThreadPool(1);
+        this.restart = false;
     }
 
     // MÉTODO QUE ATUALIZA O SCORE !!! ------
     public void updateScoreTarget(Target target) {
-        switch (target.getType()) {
-            case MEKIE:
-            case MAFALDA:
-            case PAPANOZK:
-                this.score += 20; // dão 20 pontos
-                break;
-            case HENRIQUE:
-                this.score -= 100; // henrique retira 100 pontos
-                break;
-        }
+        this.score += target.getTargetPoints();
+
+
         System.out.println("Current Score: " + this.score);
     }
 
@@ -69,6 +65,14 @@ public class Player implements KeyboardHandler {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public boolean getRestart() {
+        return restart;
+    }
+
+    public void setRestart(boolean restart) {
+        this.restart = restart;
     }
 
     public void removeTarget(Target target) {
@@ -150,6 +154,11 @@ public class Player implements KeyboardHandler {
         reload.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
         keyboard.addEventListener(reload);
 
+        KeyboardEvent restart = new KeyboardEvent();
+        restart.setKey(KeyboardEvent.KEY_ESC);
+        restart.setKeyboardEventType(KeyboardEventType.KEY_PRESSED);
+        keyboard.addEventListener(restart);
+
     }
 
     @Override
@@ -176,7 +185,9 @@ public class Player implements KeyboardHandler {
         if (keyPressed == keyboardEvent.KEY_R) {
             this.weapon.reload();
         }
-
+        if (keyPressed == keyboardEvent.KEY_ESC) {
+            this.restart = true;
+        }
 
     }
 

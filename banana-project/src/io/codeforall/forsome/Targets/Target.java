@@ -11,6 +11,8 @@ public class Target implements Destructible, Movable {
     private TargetType type;
     private GameGrid gameGrid;
     private String filepath;
+
+
     private int targetPoints;
 
 
@@ -45,6 +47,15 @@ public class Target implements Destructible, Movable {
     public void setType(TargetType type) {
         this.type = type;
     }
+
+    public int getTargetPoints() {
+        return targetPoints;
+    }
+
+    public void setTargetPoints(int targetPoints) {
+        this.targetPoints = targetPoints;
+    }
+
     @Override
     public void createTarget(int x,int y,String file) {
         this.picture = new Picture(x, y, file);
@@ -68,7 +79,7 @@ public class Target implements Destructible, Movable {
             // Atualiza a posição no grid
             x += STEP_SIZE;
             if (x > gameGrid.getWidth() - 90) {
-
+                this.targetPoints -= 10;
                 x = -STEP_SIZE; // Reinicia a posição horizontal quando sai do lado direito da tela
                 if(type == TargetType.HENRIQUE){
                     deleteTarget();

@@ -131,6 +131,7 @@ public class Game {
 
             while (this.gameState == GameState.GAMEOVER) {
                 Thread.sleep(this.delay);
+                restart();
             }
             this.background = new StartMenu();
             this.background.createBackground();
@@ -178,9 +179,10 @@ public class Game {
     }
 
 
-    /*public void reset() throws InterruptedException {
-        if (player.getReset()){
+    public void restart() throws InterruptedException {
+        if (player.getRestart()){
+            this.gameState = GameState.START;
             startGame();
         }
-    }*/
+    }
 }
