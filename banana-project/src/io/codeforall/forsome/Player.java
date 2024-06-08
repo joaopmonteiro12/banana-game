@@ -38,6 +38,21 @@ public class Player implements KeyboardHandler {
         this.executorService = Executors.newScheduledThreadPool(1);
     }
 
+    // MÉTODO QUE ATUALIZA O SCORE !!! ------
+    public void updateScoreTarget(Target target){
+        switch (target.getType()){
+            case MEKIE:
+            case MAFALDA:
+            case PAPANOZK:
+                this.score +=10; // dão 10 pontos
+                break;
+            case HENRIQUE:
+                this.score = 0; // henrique zera o score
+                break;
+        }
+        System.out.println("Current Score: " + this.score);
+    }
+
     public boolean isPlaying() {
         return isPlaying;
     }
@@ -258,6 +273,9 @@ public class Player implements KeyboardHandler {
             if (aimerX > targetUpperLeftCornerX && aimerX < targetUpperRightCornerX && aimerY > targetUpperLeftCornerY && aimerY < targetLowerLeftCornerY) {
                 System.out.println("Collision detected at position (" + x + ", " + y + ")");
                 target.changeActive(false);
+
+                //ATUALIZA A PONTUAÇÃO AO ATINGIR UM SCORE
+                updateScoreTarget(target);
 
                 if (target.getType() == TargetType.HENRIQUE) {
                     setPlaying(false);
