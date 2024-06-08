@@ -71,7 +71,6 @@ public class Game {
             this.background = new GameBackground();
             this.background.createBackground();
             this.currentScore = 0;
-            String score = "Score: " + this.currentScore;
             this.maxTargets = MAX_TARGETS;
             this.player.setPlaying(true);
             this.targets = new ArrayList<>(MAX_TARGETS);
@@ -80,13 +79,9 @@ public class Game {
                 targets.add(TargetFactory.createTarget(gameGrid));
             }
 
-
-            //SCORE
-            Text playerScore = new Text(720, 30, score);
-            playerScore.draw();
-            playerScore.grow(30, 20);
-
             this.player = new Player(0, grid,true);
+
+            playerScore();
 
             while (this.gameState == GameState.GAME && !this.gameOver) {
 
@@ -124,6 +119,14 @@ public class Game {
             this.background = new GameOverBackground();
             this.background.createBackground();
 
+
+            String presentHighScore = checkHighScore();
+
+            Text highScoreText = new Text(380,100, presentHighScore);
+            highScoreText.draw();
+            highScoreText.grow(200,40);
+            playerScore();
+
             while (this.gameState == GameState.GAMEOVER) {
                 Thread.sleep(this.delay);
             }
@@ -150,4 +153,27 @@ public class Game {
         }
 
     }
+
+    public String checkHighScore(){
+
+        if(this.currentScore > highScore){
+            highScore = this.currentScore;
+            return "NEW HIGHSCORE: " + this.highScore;
+        }
+        return "HIGHSCORE: " + this.highScore;
+    }
+
+    public void playerScore(){
+
+        String score = "Score: " + this.currentScore;
+        Text playerScore = new Text(720, 30, score);
+        playerScore.draw();
+        playerScore.grow(30, 20);
+    }
+
+    /*public void reset() throws InterruptedException {
+        if (player.getReset()){
+            startGame();
+        }
+    }*/
 }
