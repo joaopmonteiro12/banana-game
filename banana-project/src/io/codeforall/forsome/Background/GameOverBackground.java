@@ -7,7 +7,7 @@ public class GameOverBackground extends Background {
     private int finalScore;
 
     public GameOverBackground() {
-        this.background = new Picture(PADDING, PADDING, "src/resources/gameOver1.png");
+        this.background = new Picture(PADDING, PADDING, "resources/gameOver1.png");
         //this.backgroud.grow();
     }
 

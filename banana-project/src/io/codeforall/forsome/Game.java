@@ -218,14 +218,13 @@ public class Game {
     public void saveHighScore() {
 
         try {
-            FileOutputStream outputStream = new FileOutputStream("src/resources/savefile.txt");
+            FileWriter writer = new FileWriter("resources/savefile.txt");
+            BufferedWriter bufferedWriter = new BufferedWriter(writer);
 
-            String highScoreString = "" + highScore;
+            bufferedWriter.write(this.highScore);
 
-            byte[] buffer = highScoreString.getBytes();
-            outputStream.write(buffer);
+            bufferedWriter.close();
 
-            outputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -233,16 +232,20 @@ public class Game {
 
     public String loadHighScore(){
 
-        try {
-            FileReader reader = new FileReader ("src/resources/savefile.txt");
-            BufferedReader bufferedReader = new BufferedReader(reader);
+        try (InputStream inputStream = getClass().getResourceAsStream("resources/savefile.txt")) {
+            if (inputStream == null) {
+                // File not found, handle the case where there's no high score
+                return "0"; // Or any default value you prefer
+            }
 
-            String line = bufferedReader.readLine();
-            bufferedReader.close();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line = reader.readLine();
+            reader.close();
             return line;
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            return "0";
         }
 
     }

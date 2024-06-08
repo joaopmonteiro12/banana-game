@@ -316,7 +316,7 @@ public class Player implements KeyboardHandler {
 
         //CREATE AIMER
         public void createAimer() {
-            this.aimer.load("src/resources/aim-small.png");
+            this.aimer.load("resources/aim-small.png");
             this.aimer.draw();
             this.aimer.translate(397, 350);
         }
@@ -342,7 +342,7 @@ public class Player implements KeyboardHandler {
             this.remainingBullets = 5;
             this.bulletsLeft = maxBullets;
             this.isShooting = false;
-            this.reloadWarning = new Picture(280, 250, "src/resources/reloadWarning.png");
+            this.reloadWarning = new Picture(280, 250, "resources/reloadWarning.png");
             this.reloadWarning.grow(50, 30);
             this.bulletsPic = new Picture();
         }
@@ -415,7 +415,7 @@ public class Player implements KeyboardHandler {
         }
 
         public void showWarning() {
-            reloadWarning.load("src/resources/reloadWarning.png");
+            reloadWarning.load("resources/reloadWarning.png");
             reloadWarning.draw();
         }
 
@@ -427,31 +427,31 @@ public class Player implements KeyboardHandler {
 
             switch (getRemainingBullets()) {
                 /*case 5:
-                    bulletsPic.load("src/resources/bullet5.png");
+                    bulletsPic.load("resources/bullet5.png");
                     bulletsPic.draw();
                     System.out.println("case5" + getRemainingBullets());
                     break;*/
                 case 4:
-                    bulletsPic.load("src/resources/bullet4.png");
+                    bulletsPic.load("resources/bullet4.png");
                     //weapon.bulletsPic.translate(400, 400);
                     System.out.println("case4"+ getRemainingBullets());
                     bulletsPic.draw();
                     break;
                 case 3:
-                    bulletsPic.load("src/resources/bullet3.png");
+                    bulletsPic.load("resources/bullet3.png");
                     //weapon.bulletsPic.translate(400, 400);
                     System.out.println("case3"+ getRemainingBullets());
                     bulletsPic.draw();
                     break;
                 case 2:
-                    bulletsPic.load("src/resources/bullet2.png");
+                    bulletsPic.load("resources/bullet2.png");
                     //weapon.bulletsPic.translate(400, 400);
                     System.out.println("case2"+ getRemainingBullets());
 
                     bulletsPic.draw();
                     break;
                 case 1:
-                    bulletsPic.load("src/resources/bullet1.png");
+                    bulletsPic.load("resources/bullet1.png");
                     //weapon.bulletsPic.translate(400, 400);
                     bulletsPic.draw();
                     System.out.println("case1"+ getRemainingBullets());
@@ -464,7 +464,7 @@ public class Player implements KeyboardHandler {
         }
 
         public void fiveBullets() {
-            bulletsPic.load("src/resources/bullet5.png");
+            bulletsPic.load("resources/bullet5.png");
             //weapon.bulletsPic.translate(60,580);
             bulletsPic.draw();
         }

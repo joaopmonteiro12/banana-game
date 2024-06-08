@@ -1,10 +1,10 @@
 package io.codeforall.forsome.Targets;
 
 public enum TargetType {
-    MAFALDA("src/resources/mafalda.png", 100),
-    PAPANOZK("src/resources/nozkgollum.png", 100),
-    MEKIE("src/resources/mekie.png",100),
-    HENRIQUE("src/resources/henrique.png",-200);
+    MAFALDA("resources/mafalda.png", 100),
+    PAPANOZK("resources/nozkgollum.png", 100),
+    MEKIE("resources/mekie.png",100),
+    HENRIQUE("resources/henrique.png",-200);
 
     String file;
     int points;
