@@ -27,13 +27,13 @@ public class Player implements KeyboardHandler {
     private List<Target> targets;
     private ScheduledExecutorService executorService;
 
-    public Player(int score, Grid grid) {
+    public Player(int score, Grid grid, boolean isPlaying) {
         this.score = score;
         this.keyboard = new Keyboard(this);
         this.weapon = new Weapon();
         addKeyboard();
         this.grid = grid;
-        this.isPlaying = true;
+        this.isPlaying = isPlaying;
         this.targets = new ArrayList<>();
         this.executorService = Executors.newScheduledThreadPool(1);
     }
@@ -259,7 +259,7 @@ public class Player implements KeyboardHandler {
                 System.out.println("Collision detected at position (" + x + ", " + y + ")");
                 target.changeActive(false);
 
-                if (target.type == TargetType.HENRIQUE) {
+                if (target.getType() == TargetType.HENRIQUE) {
                     setPlaying(false);
                     System.out.println("AAAAHH MATARAM ME!");
                 }

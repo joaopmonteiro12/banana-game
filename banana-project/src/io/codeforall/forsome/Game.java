@@ -6,14 +6,11 @@ import io.codeforall.forsome.Background.GameOverBackground;
 import io.codeforall.forsome.Grid.Grid;
 import io.codeforall.forsome.Grid.GameGrid;
 import io.codeforall.forsome.Grid.GridFactory;
-import io.codeforall.forsome.Targets.Henrique;
 import io.codeforall.forsome.Targets.Target;
 import io.codeforall.forsome.Targets.TargetFactory;
 import org.academiadecodigo.simplegraphics.graphics.Canvas;
 import org.academiadecodigo.simplegraphics.graphics.Text;
-import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import io.codeforall.forsome.Background.StartMenu;
-import org.academiadecodigo.simplegraphics.pictures.Picture;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +49,7 @@ public class Game {
     }
 
     public void startGame() throws InterruptedException {
-        this.player = new Player(0, grid);
+        this.player = new Player(0, grid, false);
 
         GameGrid gameGrid = null;
         if (grid instanceof GameGrid) {
@@ -89,7 +86,7 @@ public class Game {
             playerScore.draw();
             playerScore.grow(30, 20);
 
-            this.player = new Player(0, grid);
+            this.player = new Player(0, grid,true);
 
             while (this.gameState == GameState.GAME && !this.gameOver) {
 

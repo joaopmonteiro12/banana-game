@@ -8,7 +8,7 @@ public class Target implements Destructible, Movable {
     private int x;
     private int y;
     private boolean isActive;
-    public TargetType type;
+    private TargetType type;
     private GameGrid gameGrid;
     private String filepath;
 
@@ -36,7 +36,13 @@ public class Target implements Destructible, Movable {
         this.filepath = filepath;
     }
 
+    public TargetType getType() {
+        return type;
+    }
 
+    public void setType(TargetType type) {
+        this.type = type;
+    }
     @Override
     public void createTarget(int x,int y,String file) {
         this.picture = new Picture(x, y, file);
