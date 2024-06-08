@@ -17,12 +17,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Player implements KeyboardHandler {
 
-    public boolean setPlaying;
     private int score;
     private Weapon weapon;
     private Keyboard keyboard;
     private Grid grid;
-
     private boolean isPlaying;
     private List<Target> targets;
     private ScheduledExecutorService executorService;
@@ -39,15 +37,15 @@ public class Player implements KeyboardHandler {
     }
 
     // MÉTODO QUE ATUALIZA O SCORE !!! ------
-    public void updateScoreTarget(Target target){
-        switch (target.getType()){
+    public void updateScoreTarget(Target target) {
+        switch (target.getType()) {
             case MEKIE:
             case MAFALDA:
             case PAPANOZK:
-                this.score +=10; // dão 10 pontos
+                this.score += 20; // dão 20 pontos
                 break;
             case HENRIQUE:
-                this.score = 0; // henrique zera o score
+                this.score -= 100; // henrique retira 100 pontos
                 break;
         }
         System.out.println("Current Score: " + this.score);
@@ -65,11 +63,16 @@ public class Player implements KeyboardHandler {
         this.targets = targets;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     public void removeTarget(Target target) {
         targets.remove(target);
-        if (targets.isEmpty()) {
-            //isPlaying = false;
-        }
     }
 
     public Weapon getWeapon() {

@@ -28,6 +28,7 @@ public class Game {
     private boolean gameOver;
     private int maxTargets;
     private GameState gameState;
+    private Text playerScore;
 
     public Game(int cols, int rows, int delay) {
         createCanvas(cols, rows);
@@ -97,6 +98,9 @@ public class Game {
                         if (!player.isPlaying()) {
                             this.gameOver = true;
                         }
+
+                       playerScore();
+
                     }
                     if (!target.isActive()) {
                         target.deleteTarget();
@@ -104,13 +108,11 @@ public class Game {
                     }
 
                 }
-                //if (this.gameOver || this.player.getWeapon().getBulletsLeft() == 0) {
                     this.gameState = GameState.GAMEOVER;
                     for (Target target : targets) {
                         target.deleteTarget();
                         player.removeTarget(target);
                     }
-               // }
             }
 
         }
@@ -122,7 +124,7 @@ public class Game {
 
             String presentHighScore = checkHighScore();
 
-            Text highScoreText = new Text(380,100, presentHighScore);
+            Text highScoreText = new Text(390,100, presentHighScore);
             highScoreText.draw();
             highScoreText.grow(200,40);
             playerScore();
@@ -164,12 +166,17 @@ public class Game {
     }
 
     public void playerScore(){
+        if(this.playerScore != null){
+            this.playerScore.delete();
 
+        }
+        this.currentScore = this.player.getScore();
         String score = "Score: " + this.currentScore;
-        Text playerScore = new Text(720, 30, score);
-        playerScore.draw();
-        playerScore.grow(30, 20);
+        this.playerScore = new Text(680, 30, score);
+        this.playerScore.draw();
+        playerScore.grow(50, 20);
     }
+
 
     /*public void reset() throws InterruptedException {
         if (player.getReset()){

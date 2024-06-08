@@ -11,6 +11,7 @@ public class Target implements Destructible, Movable {
     private TargetType type;
     private GameGrid gameGrid;
     private String filepath;
+    private int targetPoints;
 
 
 
@@ -19,13 +20,14 @@ public class Target implements Destructible, Movable {
 
 
     // Construtor
-    public Target(int x, int y, TargetType type, String file, GameGrid gameGrid) {
+    public Target(int x, int y, TargetType type, String file, GameGrid gameGrid, int targetPoints) {
         this.x = x;
         this.y = y;
         this.type = type;
         this.isActive = true;
         this.gameGrid = gameGrid;
         this.filepath = file;
+        this.targetPoints = targetPoints;
     }
 
     public String getFilepath() {
@@ -66,6 +68,7 @@ public class Target implements Destructible, Movable {
             // Atualiza a posição no grid
             x += STEP_SIZE;
             if (x > gameGrid.getWidth() - 90) {
+
                 x = -STEP_SIZE; // Reinicia a posição horizontal quando sai do lado direito da tela
                 if(type == TargetType.HENRIQUE){
                     deleteTarget();
@@ -80,7 +83,6 @@ public class Target implements Destructible, Movable {
             this.picture.translate(xDistancePixels, yDistancePixels);
 
 
-            //System.out.println(type + " Target moved to position (" + x + ", " + y + ")");
         } else {
             System.out.println("Cannot move. Target is inactive.");
         }
