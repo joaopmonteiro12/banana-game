@@ -18,7 +18,7 @@ public class Target implements Destructible, Movable {
 
 
     private Picture picture;
-    private static final int STEP_SIZE = 5; // Tamanho do passo do movimento
+    private static final int STEP_SIZE = 20; // Tamanho do passo do movimento
 
 
     // Construtor

@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Game {
 
-    public final int MAX_TARGETS = 10;
+    public final int MAX_TARGETS = 20;
     private Grid grid;
     private int delay;
     private Player player;
