@@ -66,7 +66,7 @@ public class Game {
             this.background = new StartMenu();
             this.background.createBackground();
 
-            if(this.background instanceof StartMenu){
+            if (this.background instanceof StartMenu) {
                 StartMenu startMenu = (StartMenu) this.background;
                 startMenu.setCurrentHighScore(this.highScore);
             }
@@ -178,7 +178,7 @@ public class Game {
 
         if (this.currentScore > highScore) {
             highScore = this.currentScore;
-            saveHighScore();
+                saveHighScore();
             return "NEW HIGHSCORE: " + this.highScore;
         }
         return "HIGHSCORE: " + this.highScore;
@@ -217,20 +217,27 @@ public class Game {
 
     public void saveHighScore() {
 
-        try {
-            FileWriter writer = new FileWriter("resources/savefile.txt");
-            BufferedWriter bufferedWriter = new BufferedWriter(writer);
+        String filePath = getSaveFilePath();
 
-            bufferedWriter.write(this.highScore);
+        try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+            String highScoreString = "" + this.highScore;
+            byte[] buffer = highScoreString.getBytes();
+            outputStream.write(buffer);
 
-            bufferedWriter.close();
-
+            outputStream.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public String loadHighScore(){
+    public String loadHighScore() {
+
+        int highscore = 0;
+        String filePath = getSaveFilePath();
+
+        if(createSaveFileIfNotExists(filePath)){
+            System.out.println("Highscore file created");
+        }
 
         try (InputStream inputStream = getClass().getResourceAsStream("resources/savefile.txt")) {
             if (inputStream == null) {
@@ -247,6 +254,45 @@ public class Game {
             e.printStackTrace();
             return "0";
         }
+    }
+
+    ///////////////////
+    //getting the jar directory
+    public String getJarDirectory() {
+        try {
+            File file = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().getPath());
+            return file.getParent();
+        } catch (Exception e) {
+            // Handle exceptions (e.g., print an error message)
+            System.out.println("Error getting JAR directory: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public String getSaveFilePath() {
+        String jarLocation = getJarDirectory();
+        if (jarLocation != null) {
+            return jarLocation + File.separator + "MCH-save.txt";
+        }
+        return null; // Handle error (default file path maybe?)
 
     }
+
+    public boolean createSaveFileIfNotExists(String filePath) {
+        if (filePath != null) {
+            File saveFile = new File(filePath);
+            if (!saveFile.exists()) {
+                try {
+                    saveFile.createNewFile();
+                    return true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            }
+        }
+        return false; // Handle error (couldn't create file)
+    }
+
+
 }

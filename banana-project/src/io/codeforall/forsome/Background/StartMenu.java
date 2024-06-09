@@ -8,6 +8,7 @@ public class StartMenu extends Background{
     private Picture logo;
     private Picture announcement;
     private Text currentHighScore;
+    private Picture instructions;
 
     public StartMenu(){
         this.background = new Picture(PADDING,PADDING,"resources/duck-hunt.png");
@@ -18,6 +19,7 @@ public class StartMenu extends Background{
         super.createBackground();
         createLogo();
         createAnnouncement();
+        createInstructions();
     }
 
     public void createLogo() {
@@ -31,6 +33,12 @@ public class StartMenu extends Background{
         this.announcement = new Picture(222,340, "resources/start-announcement.png");
         this.announcement.draw();
 
+    }
+
+    public void createInstructions(){
+        this.instructions = new Picture(630,0,"resources/instructions-small.png");
+        this.instructions.draw();
+        this.instructions.grow(-10,-10);
     }
 
     public void setCurrentHighScore(int currentHighScore){
