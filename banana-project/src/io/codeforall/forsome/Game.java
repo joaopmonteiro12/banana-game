@@ -232,19 +232,13 @@ public class Game {
 
     public String loadHighScore() {
 
-        int highscore = 0;
         String filePath = getSaveFilePath();
 
         if(createSaveFileIfNotExists(filePath)){
             System.out.println("Highscore file created");
         }
 
-        try (InputStream inputStream = getClass().getResourceAsStream("resources/savefile.txt")) {
-            if (inputStream == null) {
-                // File not found, handle the case where there's no high score
-                return "0"; // Or any default value you prefer
-            }
-
+        try (FileInputStream inputStream = new FileInputStream(filePath)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line = reader.readLine();
             reader.close();
