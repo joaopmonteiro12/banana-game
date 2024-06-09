@@ -343,7 +343,7 @@ public class Player implements KeyboardHandler {
             this.isShooting = false;
             this.reloadWarning = new Picture(280, 250, "resources/reloadWarning.png");
             this.reloadWarning.grow(50, 30);
-            this.bulletsPic = new Picture();
+            this.bulletsPic = new Picture(75,550,"resources/bullet5-small.png");
         }
 
         public int getBulletsLeft() {
@@ -423,28 +423,23 @@ public class Player implements KeyboardHandler {
             switch (remainingBullets) {
 
                 case 5:
-                    bulletsPic.load("resources/bullet5.png");
-                    //weapon.bulletsPic.translate(400, 400);
+                    bulletsPic.load("resources/bullet5-small.png");
                     System.out.println("case5" + getRemainingBullets());
                     break;
                 case 4:
-                    bulletsPic.load("resources/bullet4.png");
-                    //weapon.bulletsPic.translate(400, 400);
+                    bulletsPic.load("resources/bullet4-small.png");
                     System.out.println("case4"+ getRemainingBullets());
                     break;
                 case 3:
-                    bulletsPic.load("resources/bullet3.png");
-                    //weapon.bulletsPic.translate(400, 400);
+                    bulletsPic.load("resources/bullet3-small.png");
                     System.out.println("case3"+ getRemainingBullets());
                     break;
                 case 2:
-                    bulletsPic.load("resources/bullet2.png");
-                    //weapon.bulletsPic.translate(400, 400);
+                    bulletsPic.load("resources/bullet2-small.png");
                     System.out.println("case2"+ getRemainingBullets());
                     break;
                 case 1:
-                    bulletsPic.load("resources/bullet1.png");
-                    //weapon.bulletsPic.translate(400, 400);
+                    bulletsPic.load("resources/bullet1-small.png");
                     System.out.println("case1"+ getRemainingBullets());
                     break;
                 case 0:
