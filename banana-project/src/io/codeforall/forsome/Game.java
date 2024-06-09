@@ -92,7 +92,7 @@ public class Game {
             }
 
             this.player = new Player(0, grid, true);
-            this.player.getWeapon().fiveBullets();
+            this.player.getWeapon().drawBullets();
             playerScore();
 
             while (this.gameState == GameState.GAME && !this.gameOver) {
