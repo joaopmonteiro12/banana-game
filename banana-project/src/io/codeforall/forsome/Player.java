@@ -9,12 +9,10 @@ import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardHandler;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 
-import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 public class Player implements KeyboardHandler {
 
@@ -89,6 +87,7 @@ public class Player implements KeyboardHandler {
 
     public void shoot(Target target) {
         weapon.fire(target);
+        weapon.drawBullets();
     }
 
 
@@ -383,7 +382,6 @@ public class Player implements KeyboardHandler {
                     bulletsLeft--;
                     weapon.aimer.checkCollision(target);
                     isShooting = false;
-                    pewpew();
                 } else if (bulletsLeft > 0) {
                     System.out.println("RELOAD RELOAD RELOAD");
                 } else
@@ -395,13 +393,12 @@ public class Player implements KeyboardHandler {
 
         public void reload() {
             if (bulletsLeft > 0) {
-                bulletsLeft -= remainingBullets;
                 remainingBullets = 5;
                 System.out.println(remainingBullets);
-                fiveBullets();
                 System.out.println("Weapon reloaded.");
+            } else {
+                System.out.println("You are out of ammo..");
             }
-            System.out.println("You are out of ammo..");
         }
 
         public void reloadWarning() {
@@ -419,59 +416,44 @@ public class Player implements KeyboardHandler {
             reloadWarning.draw();
         }
 
-        public void pewpew() {
-            if (bulletsPic != null) {
-                bulletsPic.delete();
-            }
+        public void drawBullets() {
+
             System.out.println("is pewpewing");
 
-            switch (getRemainingBullets()) {
-                /*case 5:
+            switch (remainingBullets) {
+
+                case 5:
                     bulletsPic.load("resources/bullet5.png");
-                    bulletsPic.draw();
+                    //weapon.bulletsPic.translate(400, 400);
                     System.out.println("case5" + getRemainingBullets());
-                    break;*/
+                    break;
                 case 4:
                     bulletsPic.load("resources/bullet4.png");
                     //weapon.bulletsPic.translate(400, 400);
                     System.out.println("case4"+ getRemainingBullets());
-                    bulletsPic.draw();
                     break;
                 case 3:
                     bulletsPic.load("resources/bullet3.png");
                     //weapon.bulletsPic.translate(400, 400);
                     System.out.println("case3"+ getRemainingBullets());
-                    bulletsPic.draw();
                     break;
                 case 2:
                     bulletsPic.load("resources/bullet2.png");
                     //weapon.bulletsPic.translate(400, 400);
                     System.out.println("case2"+ getRemainingBullets());
-
-                    bulletsPic.draw();
                     break;
                 case 1:
                     bulletsPic.load("resources/bullet1.png");
                     //weapon.bulletsPic.translate(400, 400);
-                    bulletsPic.draw();
                     System.out.println("case1"+ getRemainingBullets());
                     break;
                 case 0:
                     bulletsPic.delete();
-                    break;
+                    return;
             }
-
-        }
-
-        public void fiveBullets() {
-            bulletsPic.load("resources/bullet5.png");
-            //weapon.bulletsPic.translate(60,580);
             bulletsPic.draw();
         }
-
     }
-
-
 }
 
 
