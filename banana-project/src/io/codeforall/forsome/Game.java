@@ -95,7 +95,7 @@ public class Game {
             this.player.getWeapon().drawBullets();
             playerScore();
 
-            while (this.gameState == GameState.GAME && !this.gameOver) {
+            while (isGameRunning() && !this.gameOver) {
 
                 for (Target target : targets) {
                     target.createTarget(target.getX(), target.getY(), target.getFilepath());
@@ -153,6 +153,9 @@ public class Game {
             this.background = new StartMenu();
             this.background.createBackground();
         }
+        // Garantir que a JVM termine quando o jogo acabar
+        System.exit(0); // Adicionado: Chamar System.exit(0) para finalizar a JVM
+
     }
 
     private void setGameState(GameState gameState) {
@@ -250,6 +253,9 @@ public class Game {
         }
     }
 
+    public boolean isGameRunning() {
+        return this.gameState != GameState.GAMEOVER;
+    }
     ///////////////////
     //getting the jar directory
     public String getJarDirectory() {

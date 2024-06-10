@@ -35,7 +35,8 @@ public class Player implements KeyboardHandler {
         this.targets = new ArrayList<>();
         this.executorService = Executors.newScheduledThreadPool(1);
         this.restart = false;
-    }
+
+       }
 
     // MÉTODO QUE ATUALIZA O SCORE !!! ------
     public void updateScoreTarget(Target target) {
@@ -207,6 +208,10 @@ public class Player implements KeyboardHandler {
         }
         if (keyReleased == keyboardEvent.KEY_F) {
             this.weapon.isShooting = false;
+        }
+        if (keyReleased == keyboardEvent.KEY_ESC) {
+            // Perform cleanup tasks and terminate any threads or resources
+            System.exit(0);
         }
     }
 
