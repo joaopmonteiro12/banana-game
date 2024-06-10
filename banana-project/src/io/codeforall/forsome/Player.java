@@ -297,7 +297,6 @@ public class Player implements KeyboardHandler {
 
                 if (target.getType() == TargetType.HENRIQUE) {
                     setPlaying(false);
-                    System.out.println("AAAAHH MATARAM ME!");
                 }
             }
             System.out.println("No collision at position (" + aimer.getX() + ", " + aimer.getY() + ")");
@@ -423,29 +422,23 @@ public class Player implements KeyboardHandler {
 
         public void drawBullets() {
 
-            System.out.println("is pewpewing");
 
             switch (remainingBullets) {
 
                 case 5:
                     bulletsPic.load("resources/bullet5-small.png");
-                    System.out.println("case5" + getRemainingBullets());
                     break;
                 case 4:
                     bulletsPic.load("resources/bullet4-small.png");
-                    System.out.println("case4"+ getRemainingBullets());
                     break;
                 case 3:
                     bulletsPic.load("resources/bullet3-small.png");
-                    System.out.println("case3"+ getRemainingBullets());
                     break;
                 case 2:
                     bulletsPic.load("resources/bullet2-small.png");
-                    System.out.println("case2"+ getRemainingBullets());
                     break;
                 case 1:
                     bulletsPic.load("resources/bullet1-small.png");
-                    System.out.println("case1"+ getRemainingBullets());
                     break;
                 case 0:
                     bulletsPic.delete();
