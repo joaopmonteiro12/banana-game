@@ -81,6 +81,7 @@ public class Target implements Destructible, Movable {
             if (x > gameGrid.getWidth() - 90) {
                 this.targetPoints -= 10;
                 x = -STEP_SIZE; // Reinicia a posição horizontal quando sai do lado direito da tela
+                y = (int) Math.round(Math.random() * (gameGrid.getHeight()/2));
                 if(type == TargetType.HENRIQUE){
                     deleteTarget();
 
