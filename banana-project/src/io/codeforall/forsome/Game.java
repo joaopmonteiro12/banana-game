@@ -66,6 +66,7 @@ public class Game {
             this.background = new StartMenu();
             this.background.createBackground();
 
+
             if (this.background instanceof StartMenu) {
                 StartMenu startMenu = (StartMenu) this.background;
                 startMenu.setCurrentHighScore(this.highScore);
@@ -244,6 +245,11 @@ public class Game {
         try (FileInputStream inputStream = new FileInputStream(filePath)) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             String line = reader.readLine();
+
+            if(line == null){
+                return "0";
+            }
+
             reader.close();
             return line;
 

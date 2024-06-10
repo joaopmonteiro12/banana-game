@@ -20,6 +20,7 @@ public class StartMenu extends Background{
         createLogo();
         createAnnouncement();
         createInstructions();
+        powered();
     }
 
     public void createLogo() {
@@ -42,8 +43,14 @@ public class StartMenu extends Background{
     }
 
     public void setCurrentHighScore(int currentHighScore){
-        String str = "" + currentHighScore;
-        this.currentHighScore = new Text(400,400,str);
+        String str = "Current Highscore: " + currentHighScore;
+        this.currentHighScore = new Text(50,20,str);
+        this.currentHighScore.grow(30,20);
         this.currentHighScore.draw();
+    }
+
+    public void powered(){
+        Picture bananas = new Picture(315,430,"resources/powered-bananas-small.png");
+        bananas.draw();
     }
 }

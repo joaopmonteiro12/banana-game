@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/banana-project.iml" filepath="$PROJECT_DIR$/banana-project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/mc-hunter.iml" filepath="$PROJECT_DIR$/mc-hunter.iml" />
     </modules>
   </component>
 </project>
